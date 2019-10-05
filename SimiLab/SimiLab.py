@@ -35,6 +35,9 @@ class tempName:
     using embedding matrices of a given corpus. These matrices should be aligned with
     Procrustes.
 
+    """
+    def __init__(self, matrixes, yearDict, vocabularies):
+        """        
         Parameters
         --------
         matrixes : array_like
@@ -44,9 +47,7 @@ class tempName:
         vocabularies : dict
                  Need to define
 
-
-     """
-    def __init__(self, matrixes, yearDict, vocabularies):
+        """
         self.vocabularies = vocabularies # lista de vocabularios utilizados para generar las matrices
         self.inverseVocab = []
         for vocabulary in vocabularies:
