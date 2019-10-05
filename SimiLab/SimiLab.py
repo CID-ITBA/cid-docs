@@ -15,9 +15,9 @@ The core module of this NLP package!
 - getEvol(w1, y1, w2)
 - list(year-1) getEvolByStep(w1)
 '''
-
-#import numpy as np
-#from scipy import spatial
+#pipreqs \packagedirectory
+import numpy as np
+from scipy import spatial
 
 '''
 def validate(matrixes, vocabulary, yearDict):
