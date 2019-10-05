@@ -35,7 +35,7 @@ class tempName:
     using embedding matrices of a given corpus. These matrices should be aligned with
     Procrustes.
 
-    Parameters
+        Parameters
         --------
         matrixes : array_like
                 Embedding matrices
