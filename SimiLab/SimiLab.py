@@ -34,18 +34,19 @@ class tempName:
     This class will allow you to track how words changes across time 
     using embedding matrices of a given corpus. These matrices should be aligned with
     Procrustes.
+    Parameters
+    --------
+    matrixes : array_like
+                Embedding matrices
+    yearDict : dict
+                Stores the row index for a given word for each matrix
+    vocabularies : dict
+                Need to define
 
     """
     def __init__(self, matrixes, yearDict, vocabularies):
         """        
-        Parameters
-        --------
-        matrixes : array_like
-                Embedding matrices
-        yearDict : dict
-                Stores the row index for a given word for each matrix
-        vocabularies : dict
-                 Need to define
+       
 
         """
         self.vocabularies = vocabularies # lista de vocabularios utilizados para generar las matrices
