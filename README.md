@@ -1,7 +1,53 @@
-# cid-docs
+# CID-DOCS 
+[![Documentation Status](https://readthedocs.org/projects/cid-docs/badge/?version=latest)](https://cid-docs.readthedocs.io/en/latest/?badge=latest)
 
-## Pasos para generar la documentación
+## Bienvenidos al sitio de documentación del <b>Centro de investigación Digitial</b> del Instituto Tecnologico de Buenos Aires
 
+Hemos armado un tutorial que les enseñara paso a paso como auto-documentar un proyecto con [Sphinx]([https://link](https://www.sphinx-doc.org)) y publicar la documentación de su proyecto en [Read the Docs](https://[https://readthedocs.org/]) 
+
+## Paso 1
+### Prepar los Docstrings 
+Se llaman docstring a un tipo especial de comentario que podemos utilizar para documentar nuetro codigo. De esta forma logramos unificar documentación y codigo en un mismo sitio.
+
+Existen diversos formatos de doctrings compatibles con [Sphinx]([https://link](https://www.sphinx-doc.org)).
+ 
+ <ul>
+    <li>Sphynx Style</li>
+    <li>Google Style</li>
+    <li>Numpy Style</li>
+</ul>
+
+Pueden aprender más acerca de estos y como utilizarlos [aquí](https://https://www.datacamp.com/community/tutorials/docstrings-python).
+
+En nuestro caso hemos decidido utilizar Numpy Style por su simplicidad y practicidad para documentar.
+```python
+class Hotel:
+    """
+    El hotel tiene varias habitaciones
+    """
+
+    
+    def __init__(self, nombre, cuartos):
+        self.cuartos = cuartos
+        self.nombre = nombre 
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- El objetivo de utilizar [Sphinx]([https://link](https://www.sphinx-doc.org)) es el de auto-generar la documentación de nuestro paquete de Python. Para e
 Generar un paquete distribuible de Python incluyendo __init__.py vacío y el correspondiente archivo setup.py 
 ```shell
 pip install sphinx
@@ -17,4 +63,4 @@ Una vez hecho esto tendremos el siguiente árbol
 
 root
  -paquete
- -docs
+ -docs -->
