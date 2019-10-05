@@ -111,5 +111,3 @@ dmypy.json
 /docs/_build/
 # End of https://www.gitignore.io/api/python
 
-#VScode settings
-.vscode
