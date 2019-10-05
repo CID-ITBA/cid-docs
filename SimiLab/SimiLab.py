@@ -34,6 +34,7 @@ class tempName:
     This class will allow you to track how words changes across time 
     using embedding matrices of a given corpus. These matrices should be aligned with
     Procrustes.
+    
     Parameters
     --------
     matrixes : array_like
