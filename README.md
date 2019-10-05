@@ -66,9 +66,9 @@ class Hotel:
         See Also
         --------
         Hotel.make_dessert : for instruction on how to make a dessert.
-            
+
         """
-    pass
+        pass
 
     def make_dessert(self, name, size)
         """
@@ -76,10 +76,9 @@ class Hotel:
         """
         pass
 
-
 ```
 
-
+Para más ejemplos de documentación les recomendamos mirar el codigo de fuente de [SimilarityLab](https://[link](https://github.com/CID-ITBA/cid-docs)) o [Numpy](https://github.com/numpy/numpy)
 
 
 
