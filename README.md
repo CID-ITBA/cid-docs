@@ -78,7 +78,7 @@ class Hotel:
 
 ```
 
-Para más ejemplos de documentación les recomendamos mirar el codigo de fuente de [SimilarityLab](https://[link](https://github.com/CID-ITBA/cid-docs)) o [Numpy](https://github.com/numpy/numpy)
+Para más ejemplos de documentación les recomendamos mirar el codigo de fuente de [SimilarityLab](https://github.com/CID-ITBA/cid-docs) o [Numpy](https://github.com/numpy/numpy)
 
 
 
