@@ -24,12 +24,59 @@ En nuestro caso hemos decidido utilizar Numpy Style por su simplicidad y practic
 class Hotel:
     """
     El hotel tiene varias habitaciones
+    
+    Parameters
+    --------
+    nombre : str
+                Nombre del hotel
+    cuartos : int
+                Cantidad de cuartos en el hotel
     """
 
-    
+
     def __init__(self, nombre, cuartos):
         self.cuartos = cuartos
         self.nombre = nombre 
+
+    def make_meal(self, name, size, temperature)
+        """
+        Parameters
+        --------
+        name : str
+                Type of food to prepare
+        size : float
+                How many kilos to prepare
+        temperature : float
+                    How hot it should be
+        
+        Returns
+        --------
+        meal : object
+                Your desired meal
+
+        Raises
+        ------
+        ValueError
+            if 'name' is not present is not a meal.
+        Examples
+        --------
+        >>> hotel = Hotel("PythonHotel", 400)
+        >>> hotel.make_meal("Fried Chicken", 4)
+
+        See Also
+        --------
+        Hotel.make_dessert : for instruction on how to make a dessert.
+            
+        """
+    pass
+
+    def make_dessert(self, name, size)
+        """
+        ...
+        """
+        pass
+
+
 ```
 
 
