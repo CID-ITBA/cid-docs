@@ -5,9 +5,8 @@
 
 Hemos armado un tutorial que les enseñara paso a paso como auto-documentar un proyecto con [Sphinx]([https://link](https://www.sphinx-doc.org)) y publicar la documentación de su proyecto en [Read the Docs](https://[https://readthedocs.org/]) 
 
-## Paso 1
-### Prepar los Docstrings 
-Se llaman docstring a un tipo especial de comentario que podemos utilizar para documentar nuetro codigo. De esta forma logramos unificar documentación y codigo en un mismo sitio.
+## Preparando los Docstrings 
+Se llaman docstring a un formato especial de comentario que se utiliza para dar estructura a la documentación. Con estos podemos especificar detalladamente el funcionamiento de las clases y metodos implementados.
 
 Existen diversos formatos de doctrings compatibles con [Sphinx]([https://link](https://www.sphinx-doc.org)).
  
@@ -79,6 +78,75 @@ class Hotel:
 ```
 
 Para más ejemplos de documentación les recomendamos mirar el codigo de fuente de [SimilarityLab](https://github.com/CID-ITBA/cid-docs) o [Numpy](https://github.com/numpy/numpy)
+
+## Empaquetando 
+Nuestro proyecto tiene que poder ser identificado como un paquete distribuible de Python. Para ello necesitamos dos archivos escenciales, `__init__.py` y `setup.py`. Ambos deben alojarse en el mismo directorio que nuestro modulo.
+
+El archivo `__init__.py` solamente deber exisitir y puede estar vacio. No hay más requerimientos que esos.
+
+Para que [Sphinx]([https://link](https://www.sphinx-doc.org)) pueda rastrear la versión en la que actualmente estamos trabajando, como así conocer las dependencias de nuestro proyecto, es necesario generar un archivo `setup.py`.
+
+El mismo debe encontrarse en el mismo directorio que nuestra clase.
+
+```python 
+import setuptools
+
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
+    name="ProjectName",
+    version="0.0.1",
+    author="Example Author",
+    author_email="author@example.com",
+    description="A small example package",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    keywords='Cats dogs words',
+    url="https://github.com/pypa/sampleproject",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: MIT License",
+        "Operating System :: OS Independent",
+    ],
+    install_requires=[
+          'numpy',
+          'scipy',
+          'SimiLab',
+      ],
+    python_requires='>=3.6',
+)
+
+```
+
+# Sphinx
+## Primeros pasos
+
+Para poder generar nuestra documentación vamos a requerir instalar [Sphinx]([https://link](https://www.sphinx-doc.org)).
+```python
+pip install sphinx
+``` 
+y para generar nuestro archivo de requerimientos
+```python
+pip install pipresq
+``` 
+
+Una vez instalados corremos desde el directorio raiz de nuestro proyecto
+```
+>\MyProject sphinxquickstart docs -ext-autodoc
+```
+
+Recomendamos seguir las opciones por defecto que nos ofrece la CLI de [Sphinx]([https://link](https://www.sphinx-doc.org)).
+
+
+##  :construction: conf.py :construction: 
+
+Work in progress 
+
+## :construction:  .requirements.yml :construction: 
+
+
 
 
 
