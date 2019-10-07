@@ -139,7 +139,7 @@ Una vez instalados corremos desde el directorio raiz de nuestro proyecto
 
 Recomendamos seguir las opciones por defecto que nos ofrece la CLI de [Sphinx]([https://link](https://www.sphinx-doc.org)).
 
-Una vez terminado deberiaos tener la siguiente estructura:
+Una vez terminado deberiamos tener la siguiente estructura:
 ```
 -MyProject
     -MyPackage
