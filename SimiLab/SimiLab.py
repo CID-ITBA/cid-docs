@@ -243,22 +243,17 @@ class tempName:
 
         Examples
         --------
-         ma = [[-1,-2,-3],[4,5,6],[7,8,9]]
+        >>> ma = [[-1,-2,-3],[4,5,6],[7,8,9]]
         >>> mb = [[1,2.1,3],[4.2,4.8,6],[7.02,8,9.3]]
         >>> mc = [[1.1,2.2,3.1],[4.23,5,6],[7.03,8,9.32]]
-
         >>> matrices = [ma, mb, mc]
         >>> yearDict = {1990:0, 1991:1, 1995:2}
         >>> vocab1990 = {'martin':0, 'pablo':1, 'carlos':2}
         >>> vocabularies = [vocab1990]
-
         >>> tempObject = tempName(matrices, yearDict, vocabularies)
-
         >>> newVec = tempObject.getVector('pablo', 1990)
-        
         >>> print(newVec)
-
-        >>> [4, 5, 6]
+            [4, 5, 6]
         
         """        
         yearIndex = self.yearDict.get(year, -1) # obtengo el indice del año, si no esta el año devuelve -1
