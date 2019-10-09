@@ -150,7 +150,7 @@ Una vez instalados corremos desde el directorio raiz de nuestro proyecto
 
 Recomendamos seguir las opciones por defecto que nos ofrece la CLI de [Sphinx](<[https://link](https://www.sphinx-doc.org)>).
 
-Una vez terminado deberiaos tener la siguiente estructura:
+Una vez terminado deberiamos tener la siguiente estructura:
 
 ```
 -MyProject
@@ -169,7 +169,7 @@ Una vez terminado deberiaos tener la siguiente estructura:
 ## :construction: index.rst :construction:
 
 Así como en HTML se trabaja con un archivo principal llamado index.html. Cuando trabajamos con sphinx vamos a tener un punto de entrada llamado index.rst. Aquí ensamblaremos la estructura de nuestra documentación.
-En este caso se utiliza RestructuredText como lenguaje. Dada su complejidad nos limitaremos a mencionar las caracteristicas basicas que debe tener.
+En este caso utilizamos reStructuredText como lenguaje de markup.
 
 ```rst
 Welcome to SimilarityLab's documentation!
