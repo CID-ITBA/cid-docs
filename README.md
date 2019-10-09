@@ -4,23 +4,32 @@
 
 ## Bienvenidos al sitio de documentación del <b>Centro de investigación Digitial</b> del Instituto Tecnologico de Buenos Aires
 
+<<<<<<< HEAD
 Hemos armado un tutorial que les enseñara paso a paso como auto-documentar un proyecto con [Sphinx](<[https://link](https://www.sphinx-doc.org)>) y publicar la documentación de su proyecto en [Read the Docs](https://[https://readthedocs.org/]).
 
 Una vez alcanzado este objetivo ahondaremos en como publicar nuestro paquete en PYPI para poder instalarlo mediante pip.
 
 ## Preparando los Docstrings
+=======
+Hemos armado un tutorial que les enseñara paso a paso como auto-documentar un proyecto con [Sphinx](https://www.sphinx-doc.org) y publicar la documentación de su proyecto en [Read the Docs](https://readthedocs.org/) 
+>>>>>>> ec23a31c24e6655793e29c9e900c80695afc6e18
 
 Se llaman docstring a un formato especial de comentario que se utiliza para dar estructura a la documentación. Con estos podemos especificar detalladamente el funcionamiento de las clases y metodos implementados.
 
+<<<<<<< HEAD
 Existen diversos formatos de doctrings compatibles con [Sphinx](<[https://link](https://www.sphinx-doc.org)>).
 
+=======
+Existen diversos formatos de doctrings compatibles con [Sphinx](https://www.sphinx-doc.org).
+ 
+>>>>>>> ec23a31c24e6655793e29c9e900c80695afc6e18
  <ul>
     <li>Sphynx Style</li>
     <li>Google Style</li>
     <li>Numpy Style</li>
 </ul>
 
-Pueden aprender más acerca de estos y como utilizarlos [aquí](https://https://www.datacamp.com/community/tutorials/docstrings-python).
+Pueden aprender más acerca de estos y como utilizarlos [aquí](https://www.datacamp.com/community/tutorials/docstrings-python).
 
 En nuestro caso hemos decidido utilizar Numpy Style por su simplicidad y practicidad para documentar.
 
@@ -150,8 +159,12 @@ Una vez instalados corremos desde el directorio raiz de nuestro proyecto
 
 Recomendamos seguir las opciones por defecto que nos ofrece la CLI de [Sphinx](<[https://link](https://www.sphinx-doc.org)>).
 
+<<<<<<< HEAD
 Una vez terminado deberiaos tener la siguiente estructura:
 
+=======
+Una vez terminado deberiamos tener la siguiente estructura:
+>>>>>>> ec23a31c24e6655793e29c9e900c80695afc6e18
 ```
 -MyProject
     -MyPackage
