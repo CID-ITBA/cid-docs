@@ -90,7 +90,7 @@ Nuestro proyecto tiene que poder ser identificado como un paquete distribuible d
 
 El archivo `__init__.py` solamente deber exisitir y puede estar vacio. No hay más requerimientos que esos.
 
-Para que [Sphinx](<[https://link](https://www.sphinx-doc.org)>) pueda rastrear la versión en la que actualmente estamos trabajando, como así conocer las dependencias de nuestro proyecto, es necesario generar un archivo `setup.py`.
+Para que [Sphinx](https://www.sphinx-doc.org) pueda rastrear la versión en la que actualmente estamos trabajando, como así conocer las dependencias de nuestro proyecto, es necesario generar un archivo `setup.py`.
 
 El mismo debe encontrarse en el mismo directorio que nuestra clase.
 
@@ -136,19 +136,19 @@ Para poder generar nuestra documentación vamos a requerir instalar [Sphinx](htt
 pip install sphinx
 ```
 
-y para generar nuestro archivo de requerimientos
+y para generar nuestro archivo de requerimientos necesitaremos
 
 ```python
-pip install pipresq
+pip install pipreqs
 ```
 
 Una vez instalados corremos desde el directorio raiz de nuestro proyecto
 
-```
+```shell
 >\MyProject sphinxquickstart docs -ext-autodoc
 ```
 
-Recomendamos seguir las opciones por defecto que nos ofrece la CLI de [Sphinx]((https://www.sphinx-doc.org).
+Recomendamos seguir las opciones por defecto que nos ofrece la CLI de [Sphinx](https://www.sphinx-doc.org).
 
 Una vez terminado deberiamos tener la siguiente estructura:
 
@@ -193,31 +193,37 @@ Indices and tables
 
 ```
 
-La indentación es vital en al
+La indentación es vital para no incurrir en errores al momento de compilar.
 
-## :construction: conf.py :construction:
+Por ejemplo la directiva <b>automodule</b> le dice a Sphinx que tome todos los docstrings contenidos en SimiLab
 
-Work in progress
+## conf.py
 
-## :construction: .requirements.yml :construction:
+El archivo conf.py es generado de forma automatica luego de llamar a sphinxquickstart.
+Para permitir que [Sphinx](https://www.sphinx-doc.org) encuentre nuestro paquete es necesario indicarle donde se encuentra. Sugerimos utilizar de ejemplo el archivo conf.py que se encuentra [aquí](https://github.com/CID-ITBA/cid-docs/blob/master/docs/conf.py).
 
-## :construction: requirements.txt :construction:
+### Recordar configurar
 
-<!-- pipreqs                        -->
-<!-- El objetivo de utilizar [Sphinx]([https://link](https://www.sphinx-doc.org)) es el de auto-generar la documentación de nuestro paquete de Python. Para e
-Generar un paquete distribuible de Python incluyendo __init__.py vacío y el correspondiente archivo setup.py
+<ul>
+<li>Extensiones de Sphinx</li>
+<li>Path</li>
+<li>Tema (sugerimos 'default')</li>
+</ul>
+
+## Archivos .readthedocs.yml y requirements.txt
+
+Ciertamene la mayoría de los proyectos requieren ciertas dependecias externas. Sin embargo, aunque sean paquetes de terceros, hay que especificar cuales son.
+
+<ol>
+    <li>En el directorio raiz crear un archivo .readthedocs.yml</li>
+    <li>Copiar el archivo de <a href=https://github.com/CID-ITBA/cid-docs/blob/master/.readthedocs.yml>ejemplo</a></li>
+</ol>
+Luego debemos generar nuestro archivo de requerimientos
+
 ```shell
-pip install sphinx
-"""
-Correr en el directorio raiz de nuestro paquete, es decir un nivel arriba de la carpeta de donde esta el paquete
-"""
-sphinx-quickstart docs
+ >MyProject/MyPackage pipreqs > requirements.txt
 ```
 
-El comando nos guiara a traves de una serie de pasos. Se recomienda dejar todo en default salvo *nombres* y números de *version*.
+Se recomienda mover el mismo a la carpeta <b>docs</b>
 
-Una vez hecho esto tendremos el siguiente árbol
-
-root
- -paquete
- -docs -->
+# :construction: make html, rdft :construction:

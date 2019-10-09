@@ -200,12 +200,9 @@ class tempName:
         >>> vocabularies = [vocab1990]
 
         >>> tempObject = tempName(matrices, yearDict, vocabularies)
-
         >>> newVec = tempObject.findSimilars2Word('pablo', 3, 1990)
-        
         >>> print(newVec)
-
-        >>> {'pablo': 1.0, 'carlos': 0.9981908926857268, 'martin': -0.974631846197076}
+            {'pablo': 1.0, 'carlos': 0.9981908926857268, 'martin': -0.974631846197076}
         
         """
         vector = self.getVector(word, year)
