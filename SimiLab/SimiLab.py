@@ -20,13 +20,13 @@ import numpy as np
 from scipy import spatial
 
 '''
-def validate(matrixes, vocabulary, yearDict):
+def validate(matrices, vocabulary, yearDict):
     success = True
     if not isinstance(vocabulary, dict):
         success = False
     if not isinstance(yearDict, dict):
         success = False
-    if matrixes
+    if matrices
 '''
     
 class tempName:
@@ -37,7 +37,7 @@ class tempName:
 
     Parameters
     --------
-    matrixes : array_like
+    matrices : array_like
                 Embedding matrices
     yearDict : dict
                 Stores the row index for a given word for each matrix
@@ -45,15 +45,36 @@ class tempName:
                 Need to define
 
     """
-    def __init__(self, matrixes, yearDict, vocabularies):
+    def __init__(self, matrices, yearDict, vocabularies):
         self.vocabularies = vocabularies # lista de vocabularios utilizados para generar las matrices
         self.inverseVocab = []
         for vocabulary in vocabularies:
             self.inverseVocab.append( dict(map(reversed, vocabulary.items())) ) # diccionarios inversos de los vocabularios
-        self.matrixes = matrixes    # matrices de probabilidad de coocurrencia por year
-        self.yearDict = yearDict    # diccionario que vincula year con indice en matrixes
+        self.matrices = matrices    # matrices de probabilidad de coocurrencia por year
+        self.yearDict = yearDict    # diccionario que vincula year con indice en matrices
 
-    def findSimilars2Vec(self, vector, threshold, year):
+    '''  INIT DE CARLOS
+    def __init__(self, model="dw2v", dataset="nyt"):
+        with open("models/{}/{}/dictionary.pck".format(model,dataset),"rb") as f:
+            dictionary = pickle.load(f)
+        self.vocabulary = dictionary # vocabulario utilizado para generar las matrices
+        self.inverseVocab = dict(map(reversed, dictionary.items())) # diccionario inverso del vocabulario
+        mypath = "models/{}/{}/".format(model,dataset)
+        files=glob.glob(mypath+"/*.npy")
+        matrix_files = [f.split(mypath)[1] for f in files]
+
+        self.cant_slices = len(matrix_files)
+        self.yearDict = {file.split("-")[1][:-4]:int(file.split("-")[0]) for file in matrix_files if file != "dictionary.pck"}
+        self.matrices = list(range(self.cant_slices))
+        for file in matrix_files:
+            if file != "dictionary.pck":
+                idx=int(file.split("-")[0])
+                self.matrices[idx] = np.load("models/{}/{}/".format(model,dataset)+file)    # matrices de probabilidad de coocurrencia por year
+        self.model = model
+        self.dataset = dataset
+    '''
+
+    def findSimilars2Vec(self, vector, year, threshold = 0, maxWords = None):
         """
         Finds the most similar words within a word2vec embedding matrix.
         This function computes the cosine similarities between embedding vectors
@@ -62,12 +83,15 @@ class tempName:
         Parameters
         --------
         vector : array_like
-                Input Vector. Must match embedding dimension.
-        threshold : float, int
-                    * float: minimun cosine similaritie allowed to consider a word 'close' to the given vector.
-                    * int: amount of near words to search. 
+            Input Vector. Must match embedding dimension.
         year : int
             Choosen year.
+        threshold : float
+            Minimun cosine similarity allowed to consider a word 'close' to the given vector.
+            If left blank, the default value is 0, which allows for all vectors to be considered.
+        maxWords : int
+            Maximum number of words to be returned as most similar.
+            If left blank, the default value is 'None', which allows for all vectors to be considered.
         
         Returns
         -------
@@ -77,7 +101,7 @@ class tempName:
         Raises
         ------
         ValueError
-            if 'treshold' is a negative floating point number.
+            if 'treshold' is a negative floating point number, or it's value is greater than 1.0.
             if 'year' is not present in the current data.
         See Also
         --------
@@ -102,12 +126,12 @@ class tempName:
         >>> mb = [[1,2.1,3],[4.2,4.8,6],[7.02,8,9.3]]
         >>> mc = [[1.1,2.2,3.1],[4.23,5,6],[7.03,8,9.32]]
 
-        >>> matrixes = [ma, mb, mc]
+        >>> matrices = [ma, mb, mc]
         >>> yearDict = {1990:0, 1991:1, 1995:2}
         >>> vocab1990 = {'martin':0, 'pablo':1, 'carlos':2}
         >>> vocabularies = [vocab1990]
 
-        >>> tempObject = tempName(matrixes, yearDict, vocabularies)
+        >>> tempObject = tempName(matrices, yearDict, vocabularies)
 
         >>> newVec = tempObject.findSimilars([1,2,3], 3, 1990)
         
@@ -116,38 +140,30 @@ class tempName:
         >>> {'pablo': 0.9746318461970761, 'carlos': 0.9594119455666702, 'martin': -1.0}
         
         """
-        if threshold > 0:
+        if threshold >= 0.0 and threshold < 1.0:
             yearIndex = self.yearDict.get(year, -1) # obtengo el indice del año, si no esta el año devuelve -1
             if(yearIndex != -1):
-                tempMat = self.matrixes[yearIndex] # obtengo la matriz del año pedido
+                tempMat = self.matrices[yearIndex] # obtengo la matriz del año pedido
                 results = {} # container para los resultados encontrados dict{string, sim}
                 # np.transpose(tempMat) si la palabra es la columna
-                if type(threshold) is float:
-                    if threshold < 1.0:
-                        for index, word in enumerate(tempMat): # ASUMIENDO QUE LA PALABRA ES LA FILA!!!
-                            cosSim = 1 - spatial.distance.cosine(vector, word) # se obtiene la similitud coseno entre word y vector
-                            if np.abs(cosSim) > threshold: # si la similitud coseno cae dentro del threshold dado
-                                results[ self.inverseVocab[yearIndex][index] ] = cosSim # se guarda en results la palabra encontrada
-                    else:
-                        raise ValueError("Similarity Threshold value must be under 1.0")
-                elif type(threshold) is int:
-                    similarities = []
-                    for index, word in enumerate(tempMat): # ASUMIENDO QUE LA PALABRA ES LA FILA!!!
-                        cosSim = 1 - spatial.distance.cosine(vector, word) # se obtiene la similitud coseno entre word y vector
+                similarities = []
+                for index, word in enumerate(tempMat): # ASUMIENDO QUE LA PALABRA ES LA FILA!!!
+                    cosSim = 1 - spatial.distance.cosine(vector, word) # se obtiene la similitud coseno entre word y vector
+                    if np.abs(cosSim) > threshold: # si la similitud coseno cae dentro del threshold dado
                         similarities.append([index, cosSim]) # se guarda en similarities una lista de elementos [indice, similitud]
-                    similarities.sort(key=lambda elem: elem[1], reverse=True) # se ordena la lista de mayor a menor similitud
-                    mostSimilar = similarities[0:threshold] # se guardan en mostSimilar los 'threshold' elementos con mayor similitud
-                    for index, cosSim in mostSimilar:
-                        results[ self.inverseVocab[yearIndex][index] ] = cosSim
+                similarities.sort(key=lambda elem: elem[1], reverse=True) # se ordena la lista de mayor a menor similitud
+                mostSimilar = similarities[0:maxWords] # se guardan en mostSimilar los 'maxWords' elementos con mayor similitud
+                for index, cosSim in mostSimilar:
+                    results[ self.inverseVocab[yearIndex][index] ] = cosSim
                 return results
             
             else:
                 raise ValueError("Year not present")
 
         else:
-            raise ValueError("Treshold value must be positive")
+            raise ValueError("Treshold value must be positive or zero and under 1.0")
 
-    def findSimilars2Word(self, word, threshold, year):
+    def findSimilars2Word(self, word, year, threshold = 0, maxWords = None):
         """
         Finds the most similar words within a word2vec embedding matrix.
         This function computes the cosine similarities between embedding vectors
@@ -157,11 +173,14 @@ class tempName:
         --------
         word : string
                 Input Word. Must be part of selected year's vocabulary.
-        threshold : float, int
-                    * float: minimun cosine similaritie allowed to consider a word 'close' to the given vector.
-                    * int: amount of near words to search. 
         year : int
             Choosen year.
+        threshold : float
+            Minimun cosine similarity allowed to consider a word 'close' to the given vector.
+            If left blank, the default value is 0, which allows for all vectors to be considered.
+        maxWords : int
+            Maximum number of words to be returned as most similar.
+            If left blank, the default value is 'None', which allows for all vectors to be considered.
 
         Returns
         -------
@@ -175,12 +194,12 @@ class tempName:
         >>> mb = [[1,2.1,3],[4.2,4.8,6],[7.02,8,9.3]]
         >>> mc = [[1.1,2.2,3.1],[4.23,5,6],[7.03,8,9.32]]
 
-        >>> matrixes = [ma, mb, mc]
+        >>> matrices = [ma, mb, mc]
         >>> yearDict = {1990:0, 1991:1, 1995:2}
         >>> vocab1990 = {'martin':0, 'pablo':1, 'carlos':2}
         >>> vocabularies = [vocab1990]
 
-        >>> tempObject = tempName(matrixes, yearDict, vocabularies)
+        >>> tempObject = tempName(matrices, yearDict, vocabularies)
 
         >>> newVec = tempObject.findSimilars2Word('pablo', 3, 1990)
         
@@ -190,7 +209,7 @@ class tempName:
         
         """
         vector = self.getVector(word, year)
-        similars = self.findSimilars2Vec(vector, threshold, year)
+        similars = self.findSimilars2Vec(vector, year, threshold, maxWords)
 
         return similars
 
@@ -228,12 +247,12 @@ class tempName:
         >>> mb = [[1,2.1,3],[4.2,4.8,6],[7.02,8,9.3]]
         >>> mc = [[1.1,2.2,3.1],[4.23,5,6],[7.03,8,9.32]]
 
-        >>> matrixes = [ma, mb, mc]
+        >>> matrices = [ma, mb, mc]
         >>> yearDict = {1990:0, 1991:1, 1995:2}
         >>> vocab1990 = {'martin':0, 'pablo':1, 'carlos':2}
         >>> vocabularies = [vocab1990]
 
-        >>> tempObject = tempName(matrixes, yearDict, vocabularies)
+        >>> tempObject = tempName(matrices, yearDict, vocabularies)
 
         >>> newVec = tempObject.getVector('pablo', 1990)
         
@@ -244,7 +263,7 @@ class tempName:
         """        
         yearIndex = self.yearDict.get(year, -1) # obtengo el indice del año, si no esta el año devuelve -1
         if(yearIndex != -1):
-            tempMat = self.matrixes[yearIndex] # obtengo la matriz del año pedido
+            tempMat = self.matrices[yearIndex] # obtengo la matriz del año pedido
             tempVocab = self.vocabularies[yearIndex] # obtengo el vocabulario del año
             wordIndex = tempVocab.get(word, -1) # devuelve la fila donde se encuentra la palabra o -1 si no esta
             if(wordIndex != -1):
@@ -257,39 +276,104 @@ class tempName:
         else:
             raise ValueError("Year not present")
 
+    # Esta funcion devuelve un vector de ceros de tamaño segun el año seleccionado. ES PROVISIONAL Y SUJETA A SER ELIMINADA, SE UTILIZA EN EL SIGUIENTE METODO
+    def getZeroVector(self, year):
+        yearIndex = self.yearDict.get(year, -1)
+        if(yearIndex != -1):
+            tempMat = self.matrices[yearIndex] # obtengo la matriz del año pedido
+            exampleVector = tempMat[0]
+            zeroVector = np.zeros_like(exampleVector)
+            
+            return zeroVector
+        else:
+            raise ValueError("Year not present")
+
     def getVectorPosNeg(self, positives, negatives, year):
-        vector = []
+        
+        vector = self.getZeroVector(year)
+
+        for word in positives:
+            vector += self.getVector(word, year)
+        
+        for word in negatives:
+            vector -= self.getVector(word, year)
 
         return vector
 
-    def getSim(self, w1, y1, w2, y2):
-        #return cosSim
-        pass
-    def getEvol(self, w1, y1, w2):
-        #return evol
-        pass
-    def getEvolByStep(self, word):
-        evolution = []
-        return evolution
 
+    def getSim(self, w1, y1, w2, y2):
+        
+        firstVec = self.getVector(w1, y1)
+        secondVec = self.getVector(w2, y2)
+        cosSim = 1 - spatial.distance.cosine(firstVec, secondVec)
+
+        return cosSim
+
+    def getEvol(self, w1, y1, y2):  # esta bien? si recuerdo bien evol era la cosSim de una word con si misma en otro year
+        
+        evol = self.getSim(w1, y1, w1, y2)
+
+        return evol
+
+
+# hay que resolver mejor la falta de una palabra en el año (bypass)
+    def getEvolByStep(self, word):
+        
+        evolution = []
+        yearQuantity = len(self.yearDict)
+    
+        for yearIndex in range(0, yearQuantity - 1):
+
+            mat1 = self.matrices[yearIndex]
+            vocab1 = self.vocabularies[yearIndex]
+            wordIndex1 = vocab1.get(word, -1)
+            if(wordIndex1 == -1):                   # si la palabra no esta en el año, se saltea esta comparacion (nunca sucede si proyecta)
+                continue
+            vector1 = mat1[wordIndex1]
+
+            mat2 = self.matrices[yearIndex+1]
+            vocab2 = self.vocabularies[yearIndex+1]
+            wordIndex2 = vocab2.get(word, -1)
+            if(wordIndex2 == -1):
+                continue
+            vector2 = mat2[wordIndex2]
+
+            cosSim = 1 - spatial.distance.cosine(vector1, vector2)
+            evolution.append(cosSim)
+
+        return evolution
 
 '''
 ma = [[-1,-2,-3],[4,5,6],[7,8,9]]
-mb = [[1,2.1,3],[4.2,4.8,6],[7.02,8,9.3]]
-mc = [[1.1,2.2,3.1],[4.23,5,6],[7.03,8,9.32]]
+mb = [[1,2.1,3],[4.2,4.8,6],[7.03,8,9.32]]
+mc = [[1.1,2.2,3.1],[4.23,5,6]]
 
-matrixes = [ma, mb, mc]
+matrices = [ma, mb, mc]
 yearDict = {1990:0, 1991:1, 1995:2}
 vocab1990 = {'martin':0, 'pablo':1, 'carlos':2}
-vocabularies = [vocab1990]
+vocab1991 = {'martin':0, 'pablo':1, 'carlos':2}
+vocab1995 = {'martin':0, 'pablo':1}
+vocabularies = [vocab1990, vocab1991, vocab1995]
 
-tempObject = tempName(matrixes, yearDict, vocabularies)
+tempObject = tempName(matrices, yearDict, vocabularies)
 
-newVec1 = tempObject.findSimilars2Vec([1,2,3], 3, 1990)
-newVec2 = tempObject.findSimilars2Word('pablo', 3, 1990)
+newVec1 = tempObject.findSimilars2Vec([1,2,3], 1990)
+newVec2 = tempObject.findSimilars2Word('pablo', 1990, 0, 2)
 newVec3 = tempObject.getVector('pablo', 1990)
+
+pos = ['pablo', 'martin']
+neg = ['carlos']
+newVec4 = tempObject.getVectorPosNeg(pos, neg, 1990)
+
+newVec5 = tempObject.getSim('pablo', 1990, 'pablo', 1990)
+newVec6 = tempObject.getEvol('pablo', 1990, 1990)
+newVec7 = tempObject.getEvolByStep('pablo')
 
 print(newVec1)
 print(newVec2)
 print(newVec3)
+print(newVec4)
+print(newVec5)
+print(newVec6)
+print(newVec7)
 '''
