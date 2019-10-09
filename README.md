@@ -130,7 +130,7 @@ setuptools.setup(
 
 ## Primeros pasos
 
-Para poder generar nuestra documentación vamos a requerir instalar [Sphinx](<[https://link](https://www.sphinx-doc.org)>).
+Para poder generar nuestra documentación vamos a requerir instalar [Sphinx](https://www.sphinx-doc.org).
 
 ```python
 pip install sphinx
@@ -148,7 +148,7 @@ Una vez instalados corremos desde el directorio raiz de nuestro proyecto
 >\MyProject sphinxquickstart docs -ext-autodoc
 ```
 
-Recomendamos seguir las opciones por defecto que nos ofrece la CLI de [Sphinx](<[https://link](https://www.sphinx-doc.org)>).
+Recomendamos seguir las opciones por defecto que nos ofrece la CLI de [Sphinx]((https://www.sphinx-doc.org).
 
 Una vez terminado deberiamos tener la siguiente estructura:
 

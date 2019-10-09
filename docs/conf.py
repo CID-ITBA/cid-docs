@@ -34,7 +34,6 @@ release = '0.0.1dev'
 extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.napoleon',
-    'sphinx.sphinx_copybutton',
 ]
 
 master_doc = 'index'
