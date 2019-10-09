@@ -10,7 +10,7 @@ Welcome to SimilarityLab's documentation!
    :maxdepth: 2
    :caption: Contents:
    
-   pages/getting-started
+   pages/getting-started  
 
 .. automodule:: SimiLab
    :members:
