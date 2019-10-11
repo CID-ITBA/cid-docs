@@ -4,31 +4,9 @@ SimiLab.py
 The core module of this NLP package! 
 """
 
-'''   Clase
-- Recibe las matrices
-- Recibe el vocabulario (dict)
-- dict{word, sim} findSimilar(V, threshold, year)
-- lista histSimilar(V, threshold)
-- array getVector(word, year)
-- getVector(positives = [], negatives = [], year)
-- getSim(w1, y1, w2, y2)
-- getEvol(w1, y1, w2)
-- list(year-1) getEvolByStep(w1)
-'''
-#pipreqs \packagedirectory
 import numpy as np
 from scipy import spatial
 
-'''
-def validate(matrices, vocabulary, yearDict):
-    success = True
-    if not isinstance(vocabulary, dict):
-        success = False
-    if not isinstance(yearDict, dict):
-        success = False
-    if matrices
-'''
-    
 class tempName:
     """
     This class will allow you to track how words changes across time 
