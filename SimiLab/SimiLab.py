@@ -407,7 +407,8 @@ class tempName:
         
         Returns
         -------
-        None
+        out : None
+            Nothing.
         """
         for yearIndex in range(0, len(yearDict)-1):
             missingKeys = self.vocabularies[yearIndex].keys() - self.vocabularies[yearIndex+1].keys()
