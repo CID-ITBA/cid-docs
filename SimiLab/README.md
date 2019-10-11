@@ -1,2 +1,3 @@
-# CID-DOCS
-Este es el primer desarrollo de documentación del CID
+# CID SimilarityLab
+
+El primer paquete de NLP desarrollador por el **Centro de Inteligencia Digital**. Con
