@@ -30,6 +30,7 @@ class tempName:
             self.inverseVocab.append( dict(map(reversed, vocabulary.items())) ) # diccionarios inversos de los vocabularios
         self.matrices = matrices    # matrices de probabilidad de coocurrencia por year
         self.yearDict = yearDict    # diccionario que vincula year con indice en matrices
+        self.projectionFlag = False
 
     '''  INIT DE CARLOS
     def __init__(self, model="dw2v", dataset="nyt"):
@@ -259,7 +260,28 @@ class tempName:
             raise ValueError("Year not present")
 
     def getVectorPosNeg(self, positives, negatives, year):
+        """
+        This function obtains a vector by computing the sum
+        of all the vectorized words in 'positives' and subtracting
+        all vectorized words from 'negatives'. Returning said vector.
         
+        Parameters
+        --------
+        positives : array_like
+            All words to add to resulting vector.
+        negatives : array_like
+            All words to subtract from resulting vector.
+        year : int
+            Chosen year.
+
+        Returns
+        -------
+        out : array_like
+            Resulting vector from adding all positives and subtracting all negatives
+        Examples
+        --------
+        """
+
         vector = self.getZeroVector(year)
 
         for word in positives:
@@ -272,7 +294,29 @@ class tempName:
 
 
     def getSim(self, w1, y1, w2, y2):
+        """
+        Finds the similarity between two selected words in two given years.
+        This function computes the cosine similarity between the vectorized
+        representation of a first word in a selected year, and the vector for
+        a second word in another year. Returning the cosine similarity between
+        the two vectors. 
         
+        Parameters
+        --------
+        y1 : int
+            First choosen year.
+        w1 : string
+            First input word. Must be present in y1.
+        y2: int
+            Second choosen year.
+        w2 : string
+            Second input word. Must be present in y2.
+        
+        Returns
+        -------
+        out : float
+            Cosine similarity between the obtained vectors from w1 and w2.
+        """
         firstVec = self.getVector(w1, y1)
         secondVec = self.getVector(w2, y2)
         cosSim = 1 - spatial.distance.cosine(firstVec, secondVec)
@@ -280,7 +324,26 @@ class tempName:
         return cosSim
 
     def getEvol(self, w1, y1, y2):  # esta bien? si recuerdo bien evol era la cosSim de una word con si misma en otro year
+        """
+        Finds a given word's evolution between two years.
+        This function computes the cosine similarity between the vectorized
+        representation of a given word in one year and the same word in a 
+        different year. Returning said cosine similarity.
         
+        Parameters
+        --------
+        y1 : int
+            First choosen year.
+        w1 : string
+            Input word. Must be present in y1 and y2.
+        y2: int
+            Second choosen year.
+        
+        Returns
+        -------
+        out : float
+            Cosine similarity between the obtained vectors from w1 in both years.
+        """
         evol = self.getSim(w1, y1, w1, y2)
 
         return evol
@@ -288,7 +351,23 @@ class tempName:
 
 # hay que resolver mejor la falta de una palabra en el año (bypass)
     def getEvolByStep(self, word):
+        """
+        Finds one word's evolution throughout all years.
+        This function computes the cosine similarities between the vectorized
+        representation of a given word from one year to the next, covering all years.
         
+        Parameters
+        --------
+        word : string
+            Choosen word.
+        
+        Returns
+        -------
+        out : array_like
+            A list containing all cosine similarities from one year to the next.
+            If the word is missing from one of the two compared years, 'missing'
+            is returned in the list's corresponding position.
+        """
         evolution = []
         yearQuantity = len(self.yearDict)
     
@@ -298,6 +377,7 @@ class tempName:
             vocab1 = self.vocabularies[yearIndex]
             wordIndex1 = vocab1.get(word, -1)
             if(wordIndex1 == -1):                   # si la palabra no esta en el año, se saltea esta comparacion (nunca sucede si proyecta)
+                evolution.append('missing')
                 continue
             vector1 = mat1[wordIndex1]
 
@@ -305,6 +385,7 @@ class tempName:
             vocab2 = self.vocabularies[yearIndex+1]
             wordIndex2 = vocab2.get(word, -1)
             if(wordIndex2 == -1):
+                evolution.append('missing')
                 continue
             vector2 = mat2[wordIndex2]
 
@@ -313,14 +394,58 @@ class tempName:
 
         return evolution
 
-'''
-ma = [[-1,-2,-3],[4,5,6],[7,8,9]]
+    def projectMatrices(self):
+        """
+        Proyects all matrices and vocabularies from oldest to newest.
+        This function progressively adds missing words from the oldest matrices 
+        and vocabularies to the newer ones, resulting in a complete vocabulary
+        for the final year and a matrix with all the word's vectorized representations.
+        
+        Parameters
+        --------
+        None
+        
+        Returns
+        -------
+        None
+        """
+        for yearIndex in range(0, len(yearDict)-1):
+            missingKeys = self.vocabularies[yearIndex].keys() - self.vocabularies[yearIndex+1].keys()
+            for key in missingKeys:
+                keyValue = self.vocabularies[yearIndex][key]
+                vector = self.matrices[yearIndex][keyValue]
+                self.matrices[yearIndex+1].append(vector)
+                self.vocabularies[yearIndex+1][key] = len(self.matrices[yearIndex+1])-1
+
+        self.projectionFlag = True
+
+
+    def checkProjection(self):
+        """
+        Checks if the model's matrices have been projected by the user.
+        Returning the state of projection.
+        
+        Parameters
+        --------
+        None
+        
+        Returns
+        -------
+        out : bool
+            False if the matrices are not projected.
+            True if the matrices are projected.
+        """
+        return self.projectionFlag
+
+
+
+ma = [[-1,-2,-3],[4,5,6],[7,8,9],[7,8,9]]
 mb = [[1,2.1,3],[4.2,4.8,6],[7.03,8,9.32]]
 mc = [[1.1,2.2,3.1],[4.23,5,6]]
 
 matrices = [ma, mb, mc]
 yearDict = {1990:0, 1991:1, 1995:2}
-vocab1990 = {'martin':0, 'pablo':1, 'carlos':2}
+vocab1990 = {'martin':0, 'pablo':1, 'carlos':2, 'fran':3}
 vocab1991 = {'martin':0, 'pablo':1, 'carlos':2}
 vocab1995 = {'martin':0, 'pablo':1}
 vocabularies = [vocab1990, vocab1991, vocab1995]
@@ -337,7 +462,7 @@ newVec4 = tempObject.getVectorPosNeg(pos, neg, 1990)
 
 newVec5 = tempObject.getSim('pablo', 1990, 'pablo', 1990)
 newVec6 = tempObject.getEvol('pablo', 1990, 1990)
-newVec7 = tempObject.getEvolByStep('pablo')
+newVec7 = tempObject.getEvolByStep('carlos')
 
 print(newVec1)
 print(newVec2)
@@ -346,4 +471,7 @@ print(newVec4)
 print(newVec5)
 print(newVec6)
 print(newVec7)
-'''
+
+print(tempObject.checkProjection())
+tempObject.projectMatrices()
+print(tempObject.checkProjection())
