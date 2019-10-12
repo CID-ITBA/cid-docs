@@ -4,15 +4,15 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="SimiLab", #Este es el nombre que figura en PyPI
+    name="SimLab", #Este es el nombre que figura en PyPI
     version="0.0.1",
-    author="Example Author",
+    author="CID",
     author_email="author@example.com",
-    description="A small example package",
+    description="NPL Package in development",
     long_description=long_description,
     long_description_content_type="text/markdown",
     keywords='NLP corpus meaning',
-    url="https://github.com/pypa/sampleproject",
+    url="https://github.com/CID-ITBA",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
