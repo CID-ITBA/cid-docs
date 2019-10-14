@@ -1,1 +1,3 @@
-name = "SimiLab"
+name = "similab"
+
+import SimiLab
