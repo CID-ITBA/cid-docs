@@ -13,7 +13,7 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('../SimiLab'))
+sys.path.insert(0, os.path.abspath('../SimiLab')) #Aquí debemos colocar el nombre de nuestro archivo .py a documentar
 
 
 # -- Project information -----------------------------------------------------
