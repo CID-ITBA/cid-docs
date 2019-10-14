@@ -7,6 +7,17 @@ The core module of this NLP package!
 import numpy as np
 from scipy import spatial
 
+class testClass:
+    """
+    Class dedicated to package testing.
+    DELETE FOR DEPLOYING
+    """
+    def __init__(self):
+        print("Class instantiation succesful")
+    
+    def say_hello(self):
+        print("Hey! This seems to be working")
+        
 class tempName:
     """
     This class will allow you to track how words changes across time 
@@ -440,39 +451,39 @@ class tempName:
 
 
 
-ma = [[-1,-2,-3],[4,5,6],[7,8,9],[7,8,9]]
-mb = [[1,2.1,3],[4.2,4.8,6],[7.03,8,9.32]]
-mc = [[1.1,2.2,3.1],[4.23,5,6]]
+# ma = [[-1,-2,-3],[4,5,6],[7,8,9],[7,8,9]]
+# mb = [[1,2.1,3],[4.2,4.8,6],[7.03,8,9.32]]
+# mc = [[1.1,2.2,3.1],[4.23,5,6]]
 
-matrices = [ma, mb, mc]
-yearDict = {1990:0, 1991:1, 1995:2}
-vocab1990 = {'martin':0, 'pablo':1, 'carlos':2, 'fran':3}
-vocab1991 = {'martin':0, 'pablo':1, 'carlos':2}
-vocab1995 = {'martin':0, 'pablo':1}
-vocabularies = [vocab1990, vocab1991, vocab1995]
+# matrices = [ma, mb, mc]
+# yearDict = {1990:0, 1991:1, 1995:2}
+# vocab1990 = {'martin':0, 'pablo':1, 'carlos':2, 'fran':3}
+# vocab1991 = {'martin':0, 'pablo':1, 'carlos':2}
+# vocab1995 = {'martin':0, 'pablo':1}
+# vocabularies = [vocab1990, vocab1991, vocab1995]
 
-tempObject = tempName(matrices, yearDict, vocabularies)
+# tempObject = tempName(matrices, yearDict, vocabularies)
 
-newVec1 = tempObject.findSimilars2Vec([1,2,3], 1990)
-newVec2 = tempObject.findSimilars2Word('pablo', 1990, 0, 2)
-newVec3 = tempObject.getVector('pablo', 1990)
+# newVec1 = tempObject.findSimilars2Vec([1,2,3], 1990)
+# newVec2 = tempObject.findSimilars2Word('pablo', 1990, 0, 2)
+# newVec3 = tempObject.getVector('pablo', 1990)
 
-pos = ['pablo', 'martin']
-neg = ['carlos']
-newVec4 = tempObject.getVectorPosNeg(pos, neg, 1990)
+# pos = ['pablo', 'martin']
+# neg = ['carlos']
+# newVec4 = tempObject.getVectorPosNeg(pos, neg, 1990)
 
-newVec5 = tempObject.getSim('pablo', 1990, 'pablo', 1990)
-newVec6 = tempObject.getEvol('pablo', 1990, 1990)
-newVec7 = tempObject.getEvolByStep('carlos')
+# newVec5 = tempObject.getSim('pablo', 1990, 'pablo', 1990)
+# newVec6 = tempObject.getEvol('pablo', 1990, 1990)
+# newVec7 = tempObject.getEvolByStep('carlos')
 
-print(newVec1)
-print(newVec2)
-print(newVec3)
-print(newVec4)
-print(newVec5)
-print(newVec6)
-print(newVec7)
+# print(newVec1)
+# print(newVec2)
+# print(newVec3)
+# print(newVec4)
+# print(newVec5)
+# print(newVec6)
+# print(newVec7)
 
-print(tempObject.checkProjection())
-tempObject.projectMatrices()
-print(tempObject.checkProjection())
+# print(tempObject.checkProjection())
+# tempObject.projectMatrices()
+# print(tempObject.checkProjection())
