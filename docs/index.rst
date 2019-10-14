@@ -12,7 +12,7 @@ Welcome to SimilarityLab's documentation!
    
    pages/getting-started  
 
-   .. autoclass: tempName
+   .. autoclass: SimiLab.tempName
    :members:
 
 Indices and tables
