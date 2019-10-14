@@ -8,7 +8,7 @@ pip install SimiLab
 ```
 Y para testear su funcionamiento
 ```python
->>> import SimiLab as sl
+>>> from SimiLab import SimiLab as sl
 >>> test = sl.testClass()
 Class instantiation succesful
 >>> test.say_hello()
