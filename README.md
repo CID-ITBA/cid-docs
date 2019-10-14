@@ -8,6 +8,20 @@ Hemos armado un tutorial que les enseñara paso a paso como auto-documentar un p
 
 Una vez alcanzado este objetivo ahondaremos en como publicar nuestro paquete en PYPI para poder instalarlo mediante pip.
 
+## :construction: Instalación con pip :construction:
+En esta fase de prueba por favor instale con pip:
+```shell
+pip install SimiLab
+```
+Y para testear su funcionamiento
+```python
+>>> import SimiLab as sl
+>>> test = sl.testClass()
+Class instantiation succesful
+>>> test.say_hello()
+Hey! This seems to be working
+
+
 ## Preparando los Docstrings
 
 Se llaman docstring a un formato especial de comentario que se utiliza para dar estructura a la documentación. Con estos podemos especificar detalladamente el funcionamiento de las clases y metodos implementados.
