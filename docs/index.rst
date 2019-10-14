@@ -7,7 +7,7 @@ Welcome to SimilarityLab's documentation!
 
    pages/getting-started
 
-.. automodule:: similab
+.. automodule:: SimiLab
    :members:
 
 Indices and tables
