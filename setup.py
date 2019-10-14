@@ -15,8 +15,8 @@ with open("similab\README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="SimiLab", #Este es el nombre que figura en PyPI
-    version="0.0.5.15dev",
+    name="similab", #Este es el nombre que figura en PyPI
+    version="0.0.5.16dev",
     author="CID",
     author_email="author@example.com",
     description="NPL Package in development",
