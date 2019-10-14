@@ -1,3 +1,3 @@
-name = "similab"
+name = "SimiLab"
 
-import SimiLab
+from .SimiLab import *

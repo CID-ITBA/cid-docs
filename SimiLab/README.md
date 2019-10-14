@@ -8,11 +8,11 @@ pip install SimiLab
 ```
 Y para testear su funcionamiento
 ```python
->>> from SimiLab import SimiLab as sl
+>>> import SimiLab as sl
 >>> test = sl.testClass()
 Class instantiation succesful
 >>> test.say_hello()
 Hey! This seems to be working
 ```
 
-Pueden encontrar toda la documentación [aquí](https://cid-docs.readthedocs.io).
+Pueden encontrar toda la documentacion [aqui](https://cid-docs.readthedocs.io).
