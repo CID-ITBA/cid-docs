@@ -39,7 +39,7 @@ class tempName:
         self.inverseVocab = []
         for vocabulary in vocabularies:
             self.inverseVocab.append( dict(map(reversed, vocabulary.items())) ) # diccionarios inversos de los vocabularios
-        self.matrices = matrices    # matrices de probabilidad de coocurrencia por year
+        self.matrices = matrices    # matrices de embedding por year
         self.yearDict = yearDict    # diccionario que vincula year con indice en matrices
         self.projectionFlag = False
 
@@ -93,22 +93,6 @@ class tempName:
         ValueError
             if 'treshold' is a negative floating point number, or it's value is greater than 1.0.
             if 'year' is not present in the current data.
-        See Also
-        --------
-        numpy.fft : for definition of the DFT and conventions used.
-        ifft : The inverse of `fft`.
-        fft2 : The two-dimensional FFT.
-        fftn : The *n*-dimensional FFT.
-        rfftn : The *n*-dimensional FFT of real input.
-        fftfreq : Frequency bins for given FFT parameters.
-        Notes
-        -----
-        FFT (Fast Fourier Transform) refers to a way the discrete Fourier
-        Transform (DFT) can be calculated efficiently, by using symmetries in the
-        calculated terms.  The symmetry is highest when `n` is a power of 2, and
-        the transform is therefore most efficient for these sizes.
-        The DFT is defined, with the conventions used in this implementation, in
-        the documentation for the `numpy.fft` module
 
         Examples
         --------
@@ -303,6 +287,13 @@ class tempName:
 
         return vector
 
+# getAnalogy
+# Recibe lista de palabras pos y año para cada palabra, lista de palabras neg y año para c/u (puede ser dict word:year), threshold y maxWords
+# Recibe year out (nada = todos los años, numero o lista) para saber en donde llamar a findSim
+# Tiene plotWords (lista) para hacer seguimiento (grafico) y savePath a donde se guardaria el png (si no hay solo plottea)
+# Validacion: ambas dict o ambas list. Si son list recibe año y es el mismo para ambas (fijarse de reescribir posneg al mismo formato)
+# Si pos es un string, neg se ignora y solo recibo pos y año
+# Devuelve como findsimtovec  
 
     def getSim(self, w1, y1, w2, y2):
         """
@@ -421,7 +412,7 @@ class tempName:
         out : None
             Nothing.
         """
-        for yearIndex in range(0, len(yearDict)-1):
+        for yearIndex in range(0, len(self.yearDict)-1):
             missingKeys = self.vocabularies[yearIndex].keys() - self.vocabularies[yearIndex+1].keys()
             for key in missingKeys:
                 keyValue = self.vocabularies[yearIndex][key]
