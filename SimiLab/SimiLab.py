@@ -277,13 +277,25 @@ class tempName:
         --------
         """
 
-        vector = self.getZeroVector(year)
+        if(isinstance(positives, str)):
+            vector = self.getVector(positives, year)
 
-        for word in positives:
-            vector += self.getVector(word, year)
-        
-        for word in negatives:
-            vector -= self.getVector(word, year)
+        else:
+            vector = self.getZeroVector(year)
+
+            if(isinstance(positives, list) and isinstance(negatives, list)):
+                for word in positives:
+                    vector += self.getVector(word, year)
+                
+                for word in negatives:
+                    vector -= self.getVector(word, year)
+
+            elif(isinstance(positives, dict) and isinstance(negatives, dict)):
+                for word in positives:
+                    vector += self.getVector(word, positives[word])
+                
+                for word in negatives:
+                    vector -= self.getVector(word, negatives[word])
 
         return vector
 
@@ -294,6 +306,24 @@ class tempName:
 # Validacion: ambas dict o ambas list. Si son list recibe año y es el mismo para ambas (fijarse de reescribir posneg al mismo formato)
 # Si pos es un string, neg se ignora y solo recibo pos y año
 # Devuelve como findsimtovec  
+
+    def getAnalogy(self, positives, negatives, year = None, threshold = 0, maxWords = None, yearOut = None, plotWords = None, savePath = None):
+        
+        resultList = []
+        vector = self.getVectorPosNeg(positives, negatives, year)
+        if(isinstance(yearOut, int)):
+            resultList[0] = self.findSimilars2Vec(vector, yearOut, threshold, maxWords)
+        elif(isinstance(yearOut, list)):
+            for index, eachYear in yearOut:
+                resultList[index] = self.findSimilars2Vec(vector, eachYear, threshold, maxWords)
+        elif(isinstance(yearOut, None)):
+            for index, eachYear in self.yearDict:
+                resultList[index] = self.findSimilars2Vec(vector, eachYear, threshold, maxWords)
+        
+        if(plotWords != None):
+            print("Aca ira el plotteo y/o guardado del grafico")
+
+        return resultList
 
     def getSim(self, w1, y1, w2, y2):
         """
